@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+
+<div th:if="${not #strings.containsIgnoreCase(#httpServletRequest.requestURI, '/auth/login')}"
+     th:replace="~{navigation/navbar :: nav}"></div>
+<br/>
+
+<form th:action="@{/auth/registration}" method="post" th:object="${employee}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <label for="employeeName">Enter the employee's name</label>
+    <input type="text" th:field="*{employeeName}" id="employeeName">
+    <div style="color:red" th:if="${#fields.hasErrors('employeeName')}" th:errors="*{employeeName}">Employee name error</div>
+    <br/>
+    <label for="password">Enter password</label>
+    <input type="password" th:field="*{password}" id="password">
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+    <br/>
+    <label for="position">Enter position</label>
+    <input type="text" th:field="*{position}" id="position">
+    <div style="color:red" th:if="${#fields.hasErrors('position')}" th:errors="*{position}">Position error</div>
+    <br/>
+    <label for="email">Enter email</label>
+    <input type="email" th:field="*{email}" id="email">
+    <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+    <br/>
+    <label for="address">Enter address</label>
+    <input type="text" th:field="*{address}" id="address">
+    <div style="color:red" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address error</div>
+    <br/>
+    <input type="submit" value="Add an employee!">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Navbar</title>
+</head>
+<body>
+
+<nav>
+  <ul style="list-style: none; padding: 0; margin: 0; display: flex; gap: 20px;">
+    <li><a th:href="@{/employees/all-employees}" class="nav-link">All employees</a></li>
+
+    <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+      <a th:href="@{/tasks}" class="nav-link">All tasks</a>
+    </li>
+
+    <li><a th:href="@{/employees/{id}/profile(id=${#authentication.principal.id})}" class="nav-link">Personal account</a></li>
+
+    <li>
+      <form th:action="@{/logout}" method="post" style="display:inline;">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit" class="nav-link">Log out</button>
+      </form>
+    </li>
+  </ul>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Personal account</title>
+</head>
+<body>
+
+<div th:if="${not #strings.containsIgnoreCase(#httpServletRequest.requestURI, '/auth/login')}"
+     th:replace="~{navigation/navbar :: nav}"></div>
+<br/>
+
+<p th:text="${employee.employeeName}">VALUE</p>
+<p th:text="${employee.position}">VALUE</p>
+<p th:text="${employee.email}">VALUE</p>
+
+<h2>My tasks</h2>
+<div th:each="task : ${tasks}">
+    <a th:href="@{/tasks/{id}/task(id=${task.id})}" th:text="${task.subject}">task</a>
+</div>
+
+<hr/>
+<a th:href="@{/employees/{id}/update-password(id=${employee.id})}">
+    <button type="button" class="btn btn-secondary">Change password</button>
+</a>
+<hr/>
+
+<br/>
+<div th:unless="${isAdmin}">
+    <a th:href="@{/employees/{id}/admin-code}">
+        <button type="button" class="btn btn-secondary">Become an admin</button>
+    </a>
+</div>
+<br/>
+
+<div th:if="${isAdmin}">
+    <br/>
+    <form th:action="@{/employees/{id}/delete-employee(id=${employee.id})}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" name="_method" value="DELETE"/>
+        <input type="submit" value="Delete my profile">
+    </form>
+    <br/>
+
+    <a th:href="@{/employees/{id}/edit-employee(id=${employee.id})}">
+        <button type="button" class="btn btn-secondary">Update my profile</button>
+    </a>
+    <br/>
+
+    <a th:href="@{/auth/registration}">
+        <button type="button" class="btn btn-secondary">Add new employee</button>
+    </a>
+    <br/>
+
+    <a href="/tasks/add-task">
+        <button type="button" class="btn btn-secondary">Create new task</button>
+    </a>
+    <br/>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<h1>Oops! Something went wrong.</h1>
+<p th:text="'Error code: ' + ${status}">VALUE</p>
+<p th:text="'Error message: ' + ${error}">VALUE</p>
+<p th:text="'Path: ' + ${path}">VALUE</p>
+<hr/>
+
+<a th:href="@{/employees/{id}/profile(id=${#authentication.principal.id})}">Go Home</a>
+
+</body>
+</html>

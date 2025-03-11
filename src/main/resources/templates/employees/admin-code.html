@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin code</title>
+</head>
+<body>
+<div th:if="${not #strings.containsIgnoreCase(#httpServletRequest.requestURI, '/auth/login')}"
+     th:replace="~{navigation/navbar :: nav}"></div>
+<br/>
+
+<form th:action="@{/employees/{id}/admin-code}" method="post" th:object="${codeDTO}">
+    <input type="hidden" name="_method" value="PATCH">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <label for="code">Enter code: </label>
+    <input type="text" th:field="*{code}" id="code">
+    <div style="color:red" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Invalid code</div>
+    <br/>
+    <input type="submit" value="Send code!">
+</form>
+
+</body>
+</html>

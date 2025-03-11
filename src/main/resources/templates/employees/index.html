@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All employees</title>
+</head>
+<body>
+
+<div th:if="${not #strings.containsIgnoreCase(#httpServletRequest.requestURI, '/auth/login')}"
+     th:replace="~{navigation/navbar :: nav}"></div>
+<br/>
+<hr/>
+
+<div th:each="employee : ${employees}">
+    <a th:href="@{/employees/{id}/show(id=${employee.id})}"
+       th:text="${employee.employeeName} + ', ' + ${employee.position}">Employee</a>
+</div>
+
+<hr/>
+
+<div th:if="${isAdmin}">
+    <a th:href="@{/auth/registration}">Register a new employee</a>
+</div>
+
+</body>
+</html>

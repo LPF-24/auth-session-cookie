@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search page</title>
+</head>
+<body>
+<div th:if="${not #strings.containsIgnoreCase(#httpServletRequest.requestURI, '/auth/login')}"
+     th:replace="~{navigation/navbar :: nav}"></div>
+<br/>
+
+<h2>Find a task</h2>
+<form th:action="@{/tasks/search}" method="get">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+  <label for="query">Enter search query</label>
+  <input type="text" name="query" id="query" th:value="${param.query}">
+  <br/>
+  <input type="submit" value="Find">
+</form>
+<br/>
+
+<div th:if="${tasks}">
+  <div th:if="!${tasks.isEmpty()}">
+    <div th:each="task : ${tasks}">
+      <a th:href="@{/tasks/{id}/task(id=${task.id})}" th:text="${task.subject}">Task</a>
+    </div>
+  </div>
+  <br/>
+
+  <div th:if="${tasks.isEmpty()}">
+    <span>Unfortunately, nothing could be found</span>
+  </div>
+  <br/>
+</div>
+<br/>
+
+</body>
+</html>
