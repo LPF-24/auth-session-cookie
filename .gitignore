@@ -1,5 +1,5 @@
-application.yml
-docker-compose.yml
+# application.yml
+# docker-compose.yml
 
 # Ignore target (this is where Maven puts the build)
 target/

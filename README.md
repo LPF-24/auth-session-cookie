@@ -35,8 +35,10 @@ docker-compose up --build
 
 | Role  | Username           | Password   |
 |-------|--------------------|------------|
-| Admin | `thomas@gmail.com` | `Test234!` |
-| User  | `alex23@gmail.com` | `Test345!` |
+| Admin | `admin@example.com` | `Test234!` |
+| User  | `user@example.com` | `user123!` |
+
+In order for a user with the **ROLE_USER** role to receive **ROLE_ADMIN**, they need to click the **"Become an admin"** button, enter the code **160000** and click the **"Send code!"** button.
 
 ## 🔐 Cookie + Session Authentication
 
