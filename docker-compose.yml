@@ -1,20 +1,32 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:15
-    restart: always
+    container_name: security-simple-db
+    restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: security_simple_project_db
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d security_simple_project_db"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
 
   app:
     build: .
+    container_name: security-simple-app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    restart: unless-stopped
     ports:
       - "8080:8080"
     environment:
@@ -22,12 +34,10 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
 
-      # для ADMIN
       ADMIN_EMAIL: admin@example.com
       ADMIN_PASSWORD: changeMe_123!
       ADMIN_NAME: Admin
 
-      # для USER
       USER_EMAIL: user@example.com
       USER_PASSWORD: user123!
       USER_NAME: User
